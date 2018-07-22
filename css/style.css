@@ -1,0 +1,42 @@
+body {
+	background: #efefef;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+div.my-submit-button {
+	text-align: center;
+}
+
+span.helper-text i {
+	position: relative;
+	bottom: -3px;
+}
+
+.color-red {
+	color: #F44336;
+}
+
+.color-green {
+	color: #4caf50;
+}
+
+input[type=text]:not(.browser-default).invalid ~ .helper-text[data-error]  .color-red {
+	color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+input[type=text]:not(.browser-default).invalid ~ .helper-text[data-error]  .color-green {
+	color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
