@@ -65,12 +65,6 @@
 		        </div>
 	    	</form>
 	    </div>
-	    <!-- Install App Button -->
-	    <div class="row center-align" id="install-container" style="display: none;">
-	    	<button class="btn-flat waves-effect" id="install-btn">
-	    		<i class="material-icons left">get_app</i>Install App
-	    	</button>
-	    </div>
 	</div>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -83,32 +77,6 @@
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register('./sw.js');
 		}
-
-		// PWA Install Button
-		let deferredPrompt;
-		const installContainer = document.getElementById('install-container');
-		const installBtn = document.getElementById('install-btn');
-
-		window.addEventListener('beforeinstallprompt', (e) => {
-			e.preventDefault();
-			deferredPrompt = e;
-			installContainer.style.display = 'block';
-		});
-
-		installBtn.addEventListener('click', async () => {
-			if (!deferredPrompt) return;
-			deferredPrompt.prompt();
-			const { outcome } = await deferredPrompt.userChoice;
-			if (outcome === 'accepted') {
-				installContainer.style.display = 'none';
-			}
-			deferredPrompt = null;
-		});
-
-		window.addEventListener('appinstalled', () => {
-			installContainer.style.display = 'none';
-			deferredPrompt = null;
-		});
 	</script>
 </body>
 </html>

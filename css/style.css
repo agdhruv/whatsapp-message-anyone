@@ -69,17 +69,3 @@ div.my-submit-button {
 .iti--show-selected-dial-code .iti__selected-dial-code {
 	margin-left: 4px;
 }
-
-/* Install button */
-#install-container {
-	margin-top: 1rem;
-}
-
-#install-btn {
-	color: #25D366;
-	font-weight: 500;
-}
-
-#install-btn:hover {
-	background-color: rgba(37, 211, 102, 0.1);
-}
