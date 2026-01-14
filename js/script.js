@@ -5,7 +5,7 @@
 		initialCountry: "in",
 		nationalMode: true,
 		formatOnDisplay: true,
-		placeholderNumberType: "MOBILE",
+		placeholderNumberType: "off",
 		validationNumberType: "MOBILE",
 		showSelectedDialCode: true
 	});
@@ -48,6 +48,6 @@
 		// Remove the '+' for WhatsApp API
 		const numberForWhatsApp = fullNumber.replace('+', '');
 
-		window.open(`https://api.whatsapp.com/send?phone=${numberForWhatsApp}`);
+		window.location.href = `https://api.whatsapp.com/send?phone=${numberForWhatsApp}`;
 	});
 })();

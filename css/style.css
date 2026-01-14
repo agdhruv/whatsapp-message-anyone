@@ -69,3 +69,7 @@ div.my-submit-button {
 .iti--show-selected-dial-code .iti__selected-dial-code {
 	margin-left: 4px;
 }
+
+.iti input.iti__tel-input[type=tel]#phone {
+	width: calc(100% - 48px);
+}
