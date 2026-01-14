@@ -1,61 +1,53 @@
 (function () {
-
-	var generateAutocompleteOptions = function (countries, codes) {
-		var obj = {};
-
-		for (var country in countries) {
-			var code = codes[countries[country]];
-			obj[`${country} (${code})`] = null;
-		}
-
-		return obj;
-	};
-
-	var countryOptions;
-
-	$.getJSON('js/country_names.json', function (data) {
-		var country_names = data;
-		$.getJSON('js/country_codes.json', function (data) {
-			var country_codes = data;
-
-			countryOptions = generateAutocompleteOptions(country_names, country_codes)
-
-			$('input.autocomplete').autocomplete({
-				data: countryOptions
-			});
-		});
+	// Initialize intl-tel-input
+	const input = document.querySelector("#phone");
+	const iti = window.intlTelInput(input, {
+		initialCountry: "in",
+		nationalMode: true,
+		formatOnDisplay: true,
+		placeholderNumberType: "MOBILE",
+		validationNumberType: "MOBILE",
+		showSelectedDialCode: true
 	});
 
+	// Form submission
 	$('#main_form').on('submit', function (e) {
 		e.preventDefault();
 
-		var $this = $(this),
-			country = $this.find('#autocomplete-input').val().trim(),
-			country_code = country.substring(country.indexOf('(') + 1, country.length - 1),
-			mobile_number = $this.find('#mobile_number').val().trim();
+		const $errorMsg = $('.error-message');
+		$errorMsg.text('');
+		$('#phone').removeClass('invalid');
 
-		var countryOptionsKeys = Object.keys(countryOptions);
-
-		if ($.inArray(country, countryOptionsKeys) === -1) {
-			$('#autocomplete-input').addClass('invalid').focus().select();
-			$('#autocomplete-input ~ .helper-text').attr('data-error', 'Please choose a country from the options');
+		// Check if input is empty
+		if (!input.value.trim()) {
+			$('#phone').addClass('invalid');
+			$errorMsg.text('Please enter a phone number');
+			input.focus();
 			return;
 		}
 
-		if (mobile_number.length === 0) {
-			$('#mobile_number').addClass('invalid').focus().select();
-			$('#mobile_number ~ .helper-text').attr('data-error', 'This is a required field');
+		// Validate the number
+		if (!iti.isValidNumber()) {
+			$('#phone').addClass('invalid');
+			const errorCode = iti.getValidationError();
+			const errorMap = {
+				0: "Invalid number",
+				1: "Invalid country code",
+				2: "Number is too short",
+				3: "Number is too long",
+				4: "Invalid number",
+				5: "Invalid number length"
+			};
+			$errorMsg.text(errorMap[errorCode] || "Invalid phone number");
+			input.focus();
 			return;
 		}
 
-		// test if the mobile number has all digits or not
-		var isDigits = /^[0-9]+$/.test(mobile_number);
-		if (!isDigits) {
-			$('#mobile_number').addClass('invalid').focus().select();
-			$('#mobile_number ~ .helper-text').attr('data-error', 'Please enter only numbers');
-			return;
-		}
+		// Get the number in E.164 format (e.g., +919876543210)
+		const fullNumber = iti.getNumber();
+		// Remove the '+' for WhatsApp API
+		const numberForWhatsApp = fullNumber.replace('+', '');
 
-		window.open(`https://api.whatsapp.com/send?phone=${country_code}${mobile_number}`);
+		window.open(`https://api.whatsapp.com/send?phone=${numberForWhatsApp}`);
 	});
 })();

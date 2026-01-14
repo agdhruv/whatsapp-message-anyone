@@ -16,13 +16,22 @@
 	<meta name="keywords" content="whatsapp, without saving number, anyone, not saving number, whatsapp message, message, text, whatsapp text, without saving contact, without contact, without, contact, number">
 	<meta name="author" content="Dhruv Agarwal">
 	<meta name="robots" content="index, follow">
+	<!-- PWA -->
+	<link rel="manifest" href="manifest.json">
+	<meta name="theme-color" content="#25D366">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="WA Anyone">
+	<link rel="apple-touch-icon" href="icons/icon.svg">
 	<meta name="og:title" content="WhatsApp Without Saving Number">
 	<meta name="og:type" content="webapp">
 	<meta name="og:description" content="This simple app will allow you to directly send a WhatsApp message to a number, instead of having to save the number and then texting the person.">
 	<!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- intl-tel-input CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="container">
@@ -43,21 +52,10 @@
 	    <div class="row">
 	    	<form class="col s12" id="main_form">
 	    		<div class="row">
-					<div class="input-field col s12 m6 offset-m3">
-						<input type="text" id="autocomplete-input" class="autocomplete validate" autocomplete="off" value="India (91)">
-						<label for="autocomplete-input">WhatsApp Number Country Code</label>
-						<span class="helper-text"></span>
-					</div>
-	    		</div>
-	    		<div class="row">
-		    		<div class="input-field col s12 m6 offset-m3">
-						<input placeholder="Without country code" autocomplete="off" id="mobile_number" type="text" class="validate">
-						<label for="mobile_number">WhatsApp Number</label>
-						<span class="helper-text">
-							<i class="material-icons tiny color-red">close</i> +919876543210<br>
-							<i class="material-icons tiny color-red">close</i> 09876543210<br>
-							<i class="material-icons tiny color-green">check</i> 9876543210
-						</span>
+		    		<div class="input-field col s12 m6 offset-m3 phone-input-container">
+		    			<label class="phone-label">WhatsApp Number</label>
+						<input type="tel" id="phone" autocomplete="off">
+						<span class="helper-text error-message"></span>
 			        </div>
 		        </div>
 		        <div class="row my-submit-button">
@@ -67,10 +65,50 @@
 		        </div>
 	    	</form>
 	    </div>
+	    <!-- Install App Button -->
+	    <div class="row center-align" id="install-container" style="display: none;">
+	    	<button class="btn-flat waves-effect" id="install-btn">
+	    		<i class="material-icons left">get_app</i>Install App
+	    	</button>
+	    </div>
 	</div>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
-    <script src="js/script.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+	<!-- intl-tel-input JS with utils -->
+	<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInputWithUtils.min.js"></script>
+	<script src="js/script.js"></script>
+	<script>
+		// Service Worker
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('./sw.js');
+		}
+
+		// PWA Install Button
+		let deferredPrompt;
+		const installContainer = document.getElementById('install-container');
+		const installBtn = document.getElementById('install-btn');
+
+		window.addEventListener('beforeinstallprompt', (e) => {
+			e.preventDefault();
+			deferredPrompt = e;
+			installContainer.style.display = 'block';
+		});
+
+		installBtn.addEventListener('click', async () => {
+			if (!deferredPrompt) return;
+			deferredPrompt.prompt();
+			const { outcome } = await deferredPrompt.userChoice;
+			if (outcome === 'accepted') {
+				installContainer.style.display = 'none';
+			}
+			deferredPrompt = null;
+		});
+
+		window.addEventListener('appinstalled', () => {
+			installContainer.style.display = 'none';
+			deferredPrompt = null;
+		});
+	</script>
 </body>
 </html>

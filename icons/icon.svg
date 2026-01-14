@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#25D366"/>
+  <!-- Central message bubble -->
+  <path fill="#fff" d="M256 180c-8 0-14 6-14 14v80c0 8 6 14 14 14s14-6 14-14v-80c0-8-6-14-14-14z"/>
+  <circle fill="#fff" cx="256" cy="310" r="8"/>
+  <!-- Multiple user avatars around central message -->
+  <circle fill="#fff" cx="140" cy="140" r="20"/>
+  <circle fill="#25D366" cx="140" cy="140" r="12"/>
+  <circle fill="#fff" cx="372" cy="140" r="20"/>
+  <circle fill="#25D366" cx="372" cy="140" r="12"/>
+  <circle fill="#fff" cx="140" cy="372" r="20"/>
+  <circle fill="#25D366" cx="140" cy="372" r="12"/>
+  <circle fill="#fff" cx="372" cy="372" r="20"/>
+  <circle fill="#25D366" cx="372" cy="372" r="12"/>
+  <!-- Connecting lines -->
+  <line x1="160" y1="160" x2="200" y2="200" stroke="#fff" stroke-width="3"/>
+  <line x1="352" y1="160" x2="312" y2="200" stroke="#fff" stroke-width="3"/>
+  <line x1="160" y1="352" x2="200" y2="312" stroke="#fff" stroke-width="3"/>
+  <line x1="352" y1="352" x2="312" y2="312" stroke="#fff" stroke-width="3"/>
+</svg>

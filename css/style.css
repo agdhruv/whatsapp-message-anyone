@@ -10,33 +10,76 @@ div.my-submit-button {
 	text-align: center;
 }
 
-span.helper-text i {
+/* Phone input styling */
+.phone-input-container {
+	padding-top: 1rem;
+}
+
+.phone-input-container .phone-label {
 	position: relative;
-	bottom: -3px;
+	top: -0.5rem;
+	font-size: 0.8rem;
+	color: #9e9e9e;
 }
 
-.color-red {
+/* Make intl-tel-input full width */
+.iti {
+	width: 100%;
+}
+
+.iti input {
+	width: 100%;
+	height: 3rem;
+	font-size: 16px;
+	border: none;
+	border-bottom: 1px solid #9e9e9e;
+	outline: none;
+	box-sizing: border-box;
+}
+
+.iti input:focus {
+	border-bottom: 1px solid #26a69a;
+	box-shadow: 0 1px 0 0 #26a69a;
+}
+
+/* Error styling */
+.error-message {
 	color: #F44336;
+	font-size: 12px;
+	display: block;
+	margin-top: 8px;
+	min-height: 18px;
 }
 
-.color-green {
-	color: #4caf50;
+#phone.invalid {
+	border-bottom: 1px solid #F44336 !important;
+	box-shadow: 0 1px 0 0 #F44336 !important;
 }
 
-input[type=text]:not(.browser-default).invalid ~ .helper-text[data-error]  .color-red {
-	color: transparent;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    pointer-events: none;
+/* Dropdown styling fixes */
+.iti__dropdown-content {
+	max-height: 250px;
 }
 
-input[type=text]:not(.browser-default).invalid ~ .helper-text[data-error]  .color-green {
-	color: transparent;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    pointer-events: none;
+.iti__country-container {
+	z-index: 10;
+}
+
+/* Make sure selected dial code shows properly */
+.iti--show-selected-dial-code .iti__selected-dial-code {
+	margin-left: 4px;
+}
+
+/* Install button */
+#install-container {
+	margin-top: 1rem;
+}
+
+#install-btn {
+	color: #25D366;
+	font-weight: 500;
+}
+
+#install-btn:hover {
+	background-color: rgba(37, 211, 102, 0.1);
 }
